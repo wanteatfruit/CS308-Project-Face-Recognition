@@ -42,6 +42,7 @@ def generate_embeddings(files):
 
 def is_match(embd_1,embd_2,theta = 0.5):
     score = cosine(embd_1,embd_2)
+    score = 1-score
     print(score)
     if score<theta:
         return True
@@ -77,18 +78,18 @@ def get_cls():
         for d in dirs:
             cls.append(d)
     return cls
-def get_img_paths(cls):
+def get_img_paths(cls,type='test'):
     train_image_paths = []
     test_image_paths  = []
     train_labels = []
     test_labels = []
     for c in cls:
-        pth = os.path.join('test',c,'*.{:s}'.format('jpg'))
+        pth = os.path.join(type,c,'*.{:s}'.format('jpg'))
         pth = glob(pth)
                 # train
         shuffle(pth)
-        test_pth = pth[:50]
-        train_pth = pth[50:]
+        test_pth = pth[:20]
+        train_pth = pth[20:80]
         train_image_paths.extend(train_pth)
         train_labels.extend([c]*len(train_pth))
         test_image_paths.extend(test_pth)

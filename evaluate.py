@@ -14,6 +14,9 @@ def face_identification_eval():
     test_pred_labels = svm_classify(train_image_paths,train_labels,test_image_paths)
     return test_gt_labels, test_pred_labels
 
+def face_verification_eval():
+    pass
+
 if __name__=='__main__':
     print('='*50)
     print('Reading meta.....')
@@ -45,6 +48,9 @@ if __name__=='__main__':
     top_1_err = fp/len(test_gt)
     fpr,fnr,_ = det_curve(test_gt,test_pred)
     det = DetCurveDisplay(fpr=fpr,fnr=fnr,estimator_name='SVC')
+    
+    
+    # verif identification
     
         
     

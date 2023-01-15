@@ -43,11 +43,10 @@ def generate_embeddings(files):
 def is_match(embd_1,embd_2,theta = 0.5):
     score = cosine(embd_1,embd_2)
     score = 1-score
-    print(score)
-    if score<theta:
-        return True
+    if score>theta:
+        return True,score
     else:
-        return False
+        return False,score
 
 def face_identification(filename):
     pixles = extract_face(filename)
@@ -67,7 +66,7 @@ def face_identification(filename):
 
 def face_verification(file1,file2):
     embeddings = generate_embeddings([file1,file2])
-    if is_match(embd_1=embeddings[0],embd_2=embeddings[1]):
+    if is_match(embd_1=embeddings[0],embd_2=embeddings[1])[0]:
         print('Same person')
     else:
         print('Not same person')
@@ -83,17 +82,25 @@ def get_img_paths(cls,type='test'):
     test_image_paths  = []
     train_labels = []
     test_labels = []
+    image_paths =[]
+    image_labels = []
     for c in cls:
         pth = os.path.join(type,c,'*.{:s}'.format('jpg'))
         pth = glob(pth)
-                # train
-        shuffle(pth)
-        test_pth = pth[:20]
-        train_pth = pth[20:80]
-        train_image_paths.extend(train_pth)
-        train_labels.extend([c]*len(train_pth))
-        test_image_paths.extend(test_pth)
-        test_labels.extend([c]*len(test_pth))
+        if type=='veri_test':
+            image_paths.extend(pth)
+            image_labels.extend([c]*len(image_paths))
+        else:   
+            shuffle(pth)
+            test_pth = pth[:15]
+            train_pth = pth[15:60]
+            train_image_paths.extend(train_pth)
+            train_labels.extend([c]*len(train_pth))
+            test_image_paths.extend(test_pth)
+            test_labels.extend([c]*len(test_pth))
+    
+    if type=='veri_test':
+        return image_paths,image_labels
     return train_image_paths,test_image_paths,train_labels,test_labels
   
 def svm_classify(train_img_path,train_labels,test_img_path):
@@ -128,10 +135,6 @@ def svm_classify(train_img_path,train_labels,test_img_path):
     return test_labels,test_conf
               
 if __name__ =="__main__":
-    # face_verification('hhh1.jpg','hhh3.jpg')
+    face_verification('hhh_1.jpg','hhh3.jpg')
     # face_identification('test/n000009/0001_01.jpg')
-    cls = get_cls()
-    train_image_paths,test_image_paths,train_labels,test_gt_labels = get_img_paths(cls)
-    test_pred_labels = svm_classify(train_image_paths,train_labels,test_image_paths)
-    print(test_pred_labels)  
     pass

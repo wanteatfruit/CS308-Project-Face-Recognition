@@ -40,7 +40,7 @@ def generate_embeddings(files):
         faces.append(extract_face(f))
     samples = np.asarray(faces, np.float32)
     samples = utils.preprocess_input(samples, version=2)
-    model = VGGFace(include_top=False, model='resnet50',
+    model = VGGFace(include_top=False, model='senet50',
                     input_shape=(224, 224, 3))
     y = model.predict(samples)
     return y
@@ -62,7 +62,7 @@ def face_identification(filename):
     samples = np.expand_dims(pixles, axis=0)
     samples = utils.preprocess_input(samples, version=2)
 
-    model = VGGFace(model='resnet50')
+    model = VGGFace(model='senet50')
     yhat = model.predict(samples)
 
     results = utils.decode_predictions(yhat)

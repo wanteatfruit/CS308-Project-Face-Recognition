@@ -147,6 +147,6 @@ def svm_classify(train_feats, train_labels, test_image_feats):
 
 
 if __name__ == "__main__":
-    # face_verification('zzn_1.jpg', 'ajw_1.jpg')
+    # face_verification('sharonstone_1.jpg', 'sharonstone_2.jpg')
     face_identification('sharonstone_1.jpg')
     pass

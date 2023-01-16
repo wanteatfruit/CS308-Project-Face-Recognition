@@ -2,6 +2,7 @@
 ## File structure
 - `vgg.py` includes functions encapsulating the face recognition pipeline. `face_verification()` takes two image paths as inputs and outputs their cosine simiarity and whether they are the same faces. `face_identification()` takes one image path as input and outputs five most probable matches in VGGFace2's training set.
 - `evaluation.ipynb` includes pre-processing meta files and test images, and evaluation for both verification and identification.
+- `feats.pkl` image features produced in face identification task
 ## Reproducing the results
 - Install dependencies
 ```
